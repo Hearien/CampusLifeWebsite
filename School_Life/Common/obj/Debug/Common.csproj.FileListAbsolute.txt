@@ -1,0 +1,5 @@
+E:\GraduationDesign\hearien\School_Life\Common\bin\Debug\Common.dll
+E:\GraduationDesign\hearien\School_Life\Common\bin\Debug\Common.pdb
+E:\GraduationDesign\hearien\School_Life\Common\obj\Debug\Common.dll
+E:\GraduationDesign\hearien\School_Life\Common\obj\Debug\Common.pdb
+E:\GraduationDesign\hearien\School_Life\Common\obj\Debug\Common.csprojResolveAssemblyReference.cache

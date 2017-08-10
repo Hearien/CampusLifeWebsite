@@ -1,0 +1,5 @@
+E:\GraduationDesign\hearien\School_Life\Model\bin\Debug\Model.dll
+E:\GraduationDesign\hearien\School_Life\Model\bin\Debug\Model.pdb
+E:\GraduationDesign\hearien\School_Life\Model\obj\Debug\Model.dll
+E:\GraduationDesign\hearien\School_Life\Model\obj\Debug\Model.pdb
+E:\GraduationDesign\hearien\School_Life\Model\obj\Debug\Model.csprojResolveAssemblyReference.cache

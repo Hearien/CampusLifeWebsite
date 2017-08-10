@@ -1,0 +1,11 @@
+E:\GraduationDesign\hearien\School_Life\BLL\bin\Debug\BLL.dll
+E:\GraduationDesign\hearien\School_Life\BLL\bin\Debug\BLL.pdb
+E:\GraduationDesign\hearien\School_Life\BLL\obj\Debug\BLL.dll
+E:\GraduationDesign\hearien\School_Life\BLL\obj\Debug\BLL.pdb
+E:\GraduationDesign\hearien\School_Life\BLL\obj\Debug\BLL.csprojResolveAssemblyReference.cache
+E:\GraduationDesign\hearien\School_Life\BLL\bin\Debug\DAL.dll
+E:\GraduationDesign\hearien\School_Life\BLL\bin\Debug\Model.dll
+E:\GraduationDesign\hearien\School_Life\BLL\bin\Debug\DAL.pdb
+E:\GraduationDesign\hearien\School_Life\BLL\bin\Debug\Model.pdb
+E:\GraduationDesign\hearien\School_Life\BLL\bin\Debug\Common.dll
+E:\GraduationDesign\hearien\School_Life\BLL\bin\Debug\Common.pdb

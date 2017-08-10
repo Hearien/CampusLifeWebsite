@@ -1,0 +1,394 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="campus.master.cs" Inherits="MvcApplication1.Views.Shared.campus" %>
+
+<!DOCTYPE html public static "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>
+        <asp:ContentPlaceHolder ID="TitleContent" runat="server">
+        </asp:ContentPlaceHolder>
+    </title>
+    <script src="../../Scripts/jquery-3.1.1.js" type="text/javascript"></script>
+    <script src="../../Scripts/bootstrap.js" type="text/javascript"></script>
+    <script src="../../Scripts/common.js" type="text/javascript"></script>
+    <link rel="shortcut" href="../../img/logo/campus.ico" />
+    <link rel="icon" href="../../img/logo/campus.ico" type="image/x-icon" />
+    <link href="../../Content/bootstrap.css" rel="stylesheet" type="text/css" />
+    <link rel="Stylesheet" href="../../Content/master.css" />
+    <link href="../../Content/sweetalert.css" rel="stylesheet" type="text/css" />
+    <script src="../../Scripts/sweetalert.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".carousel").carousel({
+                interval: 2000, //轮播间隔
+                pause: "hover", //鼠标悬停在轮播图上，是否停止滚动
+                wrap: true,     //  
+                keyboard: true  //响应键盘事件
+            });
+            $(".carousel").carousel("cycle"); // 通过传送带项目周期从左到右。
+
+            $("#mygood").hover(function () {
+                $("#good_menu").css("visibility", "visible");
+            }, function () {
+            });
+            $("#good_menu").hover(function () { }, function () {
+                $(this).css("visibility", "hidden");
+            });
+            $("#myinfo").click(function () {
+                var user = '<%=Session["name"] %>';
+                var sno = '<%=Session["sno"] %>';
+                if (!user || user == null) {
+                    swal("请登录后操作!")
+                } else {
+                    window.location.href = "http://localhost:1188/Campus/MyInfo?sno=" + sno;
+                }
+            });
+            $("#uptpwd").click(function () {
+                var user = '<%=Session["name"] %>';
+                var sno = '<%=Session["sno"] %>';
+                if (!user || user == null) {
+                    swal("请登录后操作!")
+                } else {
+                    swal({
+                        title: "请输入新密码",
+                        text: "此次无确认，修改后请记住！",
+                        type: "input", showCancelButton: true,
+                        closeOnConfirm: false,
+                        animation: "slide-from-top",
+                        inputPlaceholder: "输入密码"
+                    },
+                        function (inputValue) {
+                            if (inputValue === false)
+                                return false;
+                            if (inputValue === "") {
+                                swal.showInputError("You need to write something!");
+                                return false
+                            }
+                            $.ajax({
+                                type: "post",
+                                url: "/Campus/UptPwd",
+                                data: "pwd=" + inputValue + "&sno=" + sno,
+                                success: function (data) {
+                                    data = eval("(" + data + ")");
+                                    console.log(data);
+                                    if (data.msg == true) {
+                                        swal("温馨提示", "修改成功！", "success");
+                                    } else {
+                                        swal("温馨提示", "修改失败！", "error");
+                                    }
+                                }
+                            });
+
+                        }
+                     );
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <div class="page-header">
+                    <div class="navbar-header">
+                        <a href="#">
+                            <img class="nav navbar-brand" src="../../img/logo/logo.png" alt="campus life"/>
+                            <span class="hidden-xs">The Campus Life</span>
+                        </a>
+                        <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+						        <span class="icon-bar"></span>
+						        <span class="icon-bar"></span>
+						        <span class="icon-bar"></span>
+					    </button>
+                    </div>
+                    <ul class="nav nav-pills navbar-right hidden-xs">
+                        <li class="od"><a href="#">Home</a></li>
+                        <li class="od"><a href="#">Join</a></li>
+                        <li class="od"><a href="#">Login</a></li>
+                        <li class="od"><a href="#">Contact</a></li>
+                    </ul>
+            </div>
+                <nav class="navbar-inverse" role="navigation">
+                    <div class="container-fluid">
+                        <div class="collapse navbar-collapse">
+                            <ul class="nav navbar-nav">
+                                <li class="first"><a href="/Campus/Index">HomePage</a></li>
+                                <li class="second"><a href="/News/News">新闻周刊</a></li>
+                                <li><a href="/Campus/Goods">校园淘宝</a></li>
+                                <li><a href="/Campus/Dynamic">校友动态</a></li>
+                                <li><a href="/Campus/About">关于我们</a></li>
+                                <li class="visible-xs"><a href="#">REGIST</a></li>
+                                <li class="visible-xs"><a href="#">LOGIN</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+        </div>
+    </div>
+    <div class="row clearfix">
+        <div class="col-md-3 column hidden-xs">
+            <div class="row clearfix top">
+                <div id="loginFrm">
+                    <p>MEMBER LOGIN</p>
+                    <form role="form" action="/Campus/Login" method="post" onsubmit="return fun_login();">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <input name="loginNo" placeholder="请输入学号" type="text" class="form-control" id="sno" />
+                            </div>
+                            <div class="form-group">
+                                <input name="loginPwd" placeholder="请输入密码" type="password" class="form-control" id="pwd" />
+                            </div>
+                        </div>
+                        <div class="col-md-4 btn">
+                            <button type="submit" class="btn btn-default">登录</button>
+                        </div>
+                    </form>
+                </div>
+                <div id="info" class="col-sm-12">
+                    <span id="img_src" style="display:none;"><%=Session["img"] %></span>
+                   <span id="stu_name" style="display:none;"><%=Session["name"] %></span>
+                   <div class="col-sm-6">
+                    <img id="stu_head" class="img-responsive img-circle pull-left" src="" width="100" height="100" />
+                   </div>
+                   <div class="col-sm-6">
+                        <h6 class="text-info">欢迎回来！</h6>
+                        <h4 id="sname" class="text-info"></h4>
+                        <h5 class="text-center">
+                            <a href="/Campus/Logout" class="pull-left">注销</a>
+                            <a id="mygood" href="#" class="pull-right">商品管理
+                                <ul id="good_menu" class="nav nav-justified pull-left">
+                                <li class=""><a style="padding:7px 8px" href="/Campus/Mygoods">我的商品</a></li>
+                                <li class=""><a style="padding:7px 8px" href="/Campus/Addgoods">添加商品</a></li>
+                                </ul>
+                            </a>
+                            
+                        </h5>
+                   </div>
+                </div>
+
+                <script type="text/javascript">
+                    var info = document.getElementById("info"); 
+                    var src = document.getElementById("img_src").innerHTML;
+                    var stu_name = document.getElementById("stu_name").innerHTML;
+                    var head = document.getElementById("stu_head");
+                    var login_frm = document.getElementById("loginFrm");
+                    var sname = document.getElementById("sname");
+                    if (src != "" && stu_name != "") {
+                        login_frm.style = "display:none";
+                        sname.innerHTML = stu_name;
+                        head.src = src;
+                    } else {
+                    info.style = "display:none";
+                    }
+                    
+                    function fun_login() {
+                        var sno = document.getElementById("sno");
+                        var pwd = document.getElementById("pwd");
+                        if (!sno || sno.value == "") {
+                            alert("请输入学号！");
+                            sno.focus();
+                            return false;
+                        }
+                        if (!pwd || pwd.value == "") {
+                            alert("请输入密码！");
+                            pwd.focus();
+                            return false;
+                        }
+                        return true;
+                    }
+                </script>
+                <div class="col-md-12">
+					<span class="col-md-3"><a href="/Campus/Regist">REGIST</a></span>
+					<span class="col-md-4"><a href="javascript:void(0)" id="uptpwd">ID/PW</a></span>
+					<span class="col-md-3"><a href="javascript:void(0)" id="myinfo">MYINFO</a></span>
+				</div>
+                <div class="col-md-12">
+				    <ul class="list-unstyled list-inline col-md-12" role="listbox">
+					    <li class="col-md-4">
+                            <div class="col-md-12"><img class="img img-responsive" src="../../img/ico/ico_03.gif" /></div>
+                            <a href="http://www.youku.com/" target="_blank">看电视</a>
+                        </li>
+					    <li class="col-md-4">
+                            <div class="col-md-12"><img class="img img-responsive" src="../../img/ico/ico_08.gif" /></div>
+                            <a href="http://idcard.911cha.com/" target="_blank">验身份</a>
+                        </li>
+					    <li class="col-md-4">
+                            <div class="col-md-12"><img class="img img-responsive" src="../../img/ico/ico_05.gif" /></div>
+                            <a href="https://www.tmall.com/" target="_blank">去购物</a>
+                        </li>
+					    <li class="col-md-4">
+                            <div class="col-md-12"><img class="img img-responsive" src="../../img/ico/ico_13.gif" /></div>
+                            <a href="http://www.kugou.com/" target="_blank">听音乐</a>
+                        </li>
+					    <li class="col-md-4">
+                            <div class="col-md-12"><img class="img img-responsive" src="../../img/ico/ico_15.gif" /></div>
+                            <a href="http://www.4399.com/" target="_blank">玩游戏</a>
+                        </li>
+					    <li class="col-md-4">
+                            <div class="col-md-12"><img class="img img-responsive" src="../../img/ico/ico_16.png" /></div>
+                            <a href="https://www.yinxiang.com/" target="_blank">记笔记</a>
+                        </li>
+				    </ul>
+                </div>
+             </div>
+        </div>
+        <div class="col-md-6 column">
+            <!--轮播图开始-->
+            <!-- 轮播图部分 -->
+            <div class="top col-md-12">
+			    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+			    <!-- Indicators -->
+			    <!-- 指示器 -->
+			    <ol class="carousel-indicators">
+			        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+			        <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+			        <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                    <li data-target="#carousel-example-generic" data-slide-to="3"></li>
+                    <li data-target="#carousel-example-generic" data-slide-to="4"></li>
+			    </ol>
+			 
+			    <!-- Wrapper for slides -->
+			    <!-- 包裹幻灯片 -->
+			    <div class="carousel-inner" role="listbox">
+				    <div class="item active">
+				        <img src="../../img/slide/1.jpg" alt="轮播图1" />
+				    </div>
+				    <div class="item">
+				        <img src="../../img/slide/2.jpg" alt="轮播图2" />
+				        </div>
+				        <div class="item">
+				        <img src="../../img/slide/3.jpg" alt="轮播图3" />
+				        </div>
+                        <div class="item">
+				        <img src="../../img/slide/4.jpg" alt="轮播图3" />
+				        </div>
+                        <div class="item">
+				        <img src="../../img/slide/5.jpg" alt="轮播图3" />
+				        </div>
+			    </div>
+			 
+			        <!-- Controls -->
+			        <!-- 控制 -->
+			        <!-- 向左滑动 -->
+			        <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+			            <span class="glyphicon glyphicon-chevron-left" aria-hidden="false"></span>
+			            <span class="sr-only">Previous</span>
+			        </a>
+			        <!-- 向右滑动 -->
+			        <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+			            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+			            <span class="sr-only">Next</span>
+			        </a>
+			    </div>
+            <!--轮播图结束-->
+                <div class="col-md-12 middle">
+                    <form role="search">
+                        <div class="form-group col-md-3">
+                            <select class="col-md-12">
+					            <option>商品</option>
+					            <option>作者</option>
+					            <option>新闻</option>
+				            </select>
+				        </div>
+                        <div class="form-group col-md-6">
+                            <input type="text" class="form-control" placeholder="请输入" />
+                        </div>
+                        <div class="form-group col-md-3">
+				            <button type="submit" class="btn btn-default">Search</button>
+                        </div>
+                    </form>
+                </div>
+           </div>
+        </div>
+        <div class="col-md-3 column hidden-xs img">
+            <img src="../../img/righttop.png" class="img-responsive top" width="270" alt="Cinque Terre" />
+        </div>
+    </div>
+    <div class="row clearfix content">
+        <div class="col-md-2 column hidden-xs">
+            <div class="slide">
+                <h4>&spades;您的评价，是我们进步的动力！</h4>
+                <form action="/Campus/Suggest" method="post">
+                    <ul contenteditable="true" class="list-unstyled col-md-12">
+                        <li>
+                            <input name="opinion" type="radio" value="100" id="_1" />
+                            <label for="_1">1.非常好！</label>
+                        </li>
+                        <li>
+                            <input name="opinion" type="radio" value="80" id="_2" />
+                            <label for="_2">2.一般</label>
+                        </li>
+                        <li>
+                            <input name="opinion" type="radio" value="60" id="_3" />
+                            <label for="_3">3.有待改善</label>
+                        </li>
+                        <li>
+                            <input name="opinion" type="radio" value="50" id="_4" />
+                            <label for="_4">4.非常糟糕</label>
+                        </li>
+                        <li>
+                            <input name="opinion" type="radio" value="0" id="_5" />
+                            <label for="_5">5.其他</label>
+                        </li>
+                    </ul>
+                    <div class="col-md-12">
+                        <button type="submit" class="btn btn-primary btn-sm">提交</button>
+                        <button type="reset" class="btn btn-primary btn-sm" href="#">取消</button>
+                    </div>
+                </form>
+                <div class="ad_left_img col-md-12">
+                    <img class="img-responsive" src="../../img/leftside_03.png" />
+                </div>
+                <div class="ad_left_img col-md-12">
+                    <img class="img-responsive" src="../../img/leftside_06.png" />
+                </div>
+                <div class="ad_left_img col-md-12">
+                    <img class="img-responsive" src="../../img/leftside_08.png" />
+                </div>
+                <div class="sea_spiri">
+                    <ul contenteditable="true" class="list-unstyled col-md-12">
+                        <li><span class="serial">①</span><span class="ser-con">激情的斗志</span><span class="ser-logo"></span></li>
+                        <li><span class="serial">②</span><span class="ser-con">创作的灵感</span><span class="ser-logo"></span></li>
+                        <li><span class="serial">③</span><span class="ser-con">协作的成就</span><span class="ser-logo"></span></li>
+                        <li><span class="serial">④</span><span class="ser-con">责任的力量</span><span class="ser-logo"></span></li>
+                    </ul>
+                    <div class="spirit">团队优势</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-10 column">
+            <asp:ContentPlaceHolder ID="MainContent" runat="server">
+
+            </asp:ContentPlaceHolder>
+        </div>
+    </div>
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <footer>
+                <div class="footUp hidden-xs">
+                    <div class="tit"><h3>SchoolLife</h3><span>school life</span></div>
+                    <div class="help">
+                        <ul>
+                            <li>新手上路</li>
+                            <li>联系我们</li>
+                            <li>申请认证</li>
+                            <li>服务协议</li>
+                            <li><a href="/Admin/Login">网站管理</a></li>
+                        </ul>
+                    </div>
+                    <div class="relate">
+                        <span>FAMILY SITE</span>
+                        <select>
+                            <option>baidu</option>
+                            <option>google</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="pubinfo">&copy; 2017 Administrator. All Rights Reserved. </div>
+            </footer>
+        </div>
+    </div>
+</div>
+</body>
+</html>

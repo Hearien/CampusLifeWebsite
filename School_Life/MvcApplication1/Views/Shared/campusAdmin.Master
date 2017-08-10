@@ -1,0 +1,97 @@
+﻿<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage" %>
+
+<!DOCTYPE html public static "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head runat="server">
+    <title><asp:ContentPlaceHolder ID="TitleContent" runat="server" /></title>
+    <script src="../../Scripts/jquery-3.1.1.js" type="text/javascript"></script>
+    <script src="../../Scripts/bootstrap.js" type="text/javascript"></script>
+    <script src="../../Scripts/sweetalert.js" type="text/javascript"></script>
+    <link href="../../Content/sweetalert.css" rel="stylesheet" type="text/css" />
+    <link href="../../Content/datetimepicker.css" rel="stylesheet" type="text/css" />
+    <link href="../../Content/bootstrap.css" rel="stylesheet" type="text/css" />
+    <link href="../../Content/admin.css" rel="stylesheet" type="text/css" />
+    <link href="../../Content/toastr.css" rel="stylesheet" type="text/css" />
+    <script src="../../Scripts/toastr.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            
+            var admin = "<%=Html.Encode(Session["admin"]) %>";
+            if(!admin || admin==""){
+                window.location.href="http://localhost:1188/Admin/Login";
+            }
+            $(".parent").hover(function () {
+                $(this).children('.child').show();
+                $(this).addClass("pare");
+            }, function () {
+                $(this).children('.child').hide();
+                $(this).removeClass("pare");
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="container>
+        <div class="row clearfix">
+		    <div class="col-md-3 column">
+                <div id="nav" class="col-md-6">
+                    <ul id="parents">
+                        <li id="logo"><img alt="logo" width="95%" src="../../img/admin/logo.png" /></li>
+                        <li class="parent">
+                            <a class="par" href="#">用户管理</a>
+                            <ul class="child">
+                            <li><a href="/Admin/User">用户索引</a></li>
+                            </ul>
+                        </li>
+                        <li class="parent">
+                            <a class="par" href="#">新闻管理</a>
+                            <ul class="child">
+                            <li><a href="/Admin/News">所有新闻</a></li>
+                            <li><a href="/News/Add">添加新闻</a></li>
+                            </ul>
+                        </li>
+                        <li class="parent">
+                            <a class="par" href="#">商品管理</a>
+                            <ul class="child">
+                            <li><a href="/Admin/Goods">所有商品</a></li>
+                            </ul>
+                        </li>
+                        <li class="parent">
+                            <a class="par" href="#">动态管理</a>
+                            <ul class="child">
+                            <li><a href="/Admin/Dynamic">所有动态</a></li>
+                            </ul>
+                        </li>
+                        <li class="parent">
+                            <a class="par" href="#">其他</a>
+                            <ul class="child">
+                                <li><a href="/Admin/GoodsCat">商品分类</a></li>
+                                <li><a href="/Admin/NewsCat">新闻分类</a></li>
+                                <li><a href="/Admin/Dept">系部信息</a></li>
+                                <li><a href="/Admin/Major">专业信息</a></li>
+                                <li><a href="/Admin/Brand">商品品牌</a></li>
+                            </ul>
+                        </li>
+                        <li id="ad_left"><img alt="ad1" width="70%" src="../../img/admin/ad_left.png" /></li>
+                    </ul>
+                </div>
+                <div id="nav_chi" class="col-md-6"></div>
+		    </div>
+		    <div class="col-md-8 column">
+                <div class="row col-md-12">
+                    <p class="row col-md-12 text-right ">
+                        <a href="#">管理员:<%=Html.Encode(Session["admin"]) %></a>&nbsp;&frasl;
+                        <a href="Exit">EXIT</a>&nbsp;&frasl;&nbsp;
+                        <a href="Index">HOME</a>&nbsp;&frasl;&nbsp;
+                        <a href="/Campus/Index">CHANGE TO WEB</a>
+                    </p>
+                </div>
+		        <asp:ContentPlaceHolder ID="MainContent" runat="server">
+        
+                </asp:ContentPlaceHolder>
+            </div>
+	    </div>
+    </div>  
+</body>
+</html>
